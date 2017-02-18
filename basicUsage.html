@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Timeline | Basic demo</title>
+
+  <style type="text/css">
+    body, html {
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="dist/vis.js"></script>
+  <script src="obama_executive_orders.js"></script>
+  <link href="dist/vis.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="visualization"></div>
+
+<script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  var container = document.getElementById('visualization');
+  var orders = obama_executive_orders.results
+  var visDataset = new Array(orders.length);
+  for (var i = 0; i < orders.length ; i++) 
+  {
+    visDataset[i] = {
+      "id": i+1, 
+      "content": orders[i].title, 
+      "start": orders[i].signing_date,
+    }
+  }
+  console.log(JSON.stringify(visDataset));
+
+  // Create a DataSet (allows two way data-binding)
+  var items = new vis.DataSet(visDataset);
+
+  // Configuration for the Timeline
+  var options = {};
+
+  // Create a Timeline
+  var timeline = new vis.Timeline(container, items, options);
+</script>
+</body>
+</html>
