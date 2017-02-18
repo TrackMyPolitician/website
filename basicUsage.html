@@ -19,14 +19,25 @@
 <script type="text/javascript">
   // DOM element where the Timeline will be attached
   var container = document.getElementById('visualization');
-  var orders = obama_executive_orders.results
+  var orders = obama_executive_orders.results.slice(0, 10);
   var visDataset = new Array(orders.length);
-  for (var i = 0; i < orders.length ; i++) 
+  var groups = new vis.DataSet();
+  groups.add({
+    id: 1,
+    content: 'executive_orders'
+  });
+  groups.add({
+    id: 2,
+    content: 'not_so_executive_orders'
+  });
+
+  for (var i = 0; i < orders.length; i++) 
   {
     visDataset[i] = {
       "id": i+1, 
       "content": orders[i].title, 
       "start": orders[i].signing_date,
+      "group": i%2 + 1
     }
   }
   console.log(JSON.stringify(visDataset));
@@ -38,7 +49,12 @@
   var options = {};
 
   // Create a Timeline
-  var timeline = new vis.Timeline(container, items, options);
+  // var timeline = new vis.Timeline(container, items, options, groups);
+  var timeline = new vis.Timeline(container);
+  timeline.setOptions(options);
+  timeline.setGroups(groups);
+  timeline.setItems(items);
+
 </script>
 </body>
 </html>
